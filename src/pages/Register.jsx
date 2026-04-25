@@ -2,9 +2,9 @@ import { useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth/AuthContext";
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { register } = useAuth();
   const [error, setError] = useState("");
 
   const handleSubmit = useCallback(
@@ -13,28 +13,41 @@ export default function Login() {
       setError("");
 
       const form = new FormData(e.currentTarget);
+      const name = String(form.get("name") ?? "").trim();
       const email = String(form.get("email") ?? "").trim();
       const password = String(form.get("password") ?? "");
 
-      const result = login({ email, password });
+      const result = register({ name, email, password });
       if (!result.ok) {
         setError(result.error);
         return;
       }
       navigate("/products", { replace: true });
     },
-    [login, navigate],
+    [navigate, register],
   );
 
   return (
     <div className="min-h-dvh bg-slate-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-semibold text-slate-900">Iniciar sesión</h1>
-        <p className="mt-1 text-sm text-slate-600">
-          Accedé con tu cuenta local (persistencia en <code>localStorage</code>).
-        </p>
+        <h1 className="text-2xl font-semibold text-slate-900">Registro</h1>
+        <p className="mt-1 text-sm text-slate-600">Cuenta local persistida en <code>localStorage</code>.</p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-slate-700" htmlFor="name">
+              Nombre
+            </label>
+            <input
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:ring-2 focus:ring-slate-400"
+              type="text"
+              id="name"
+              name="name"
+              autoComplete="name"
+              required
+            />
+          </div>
+
           <div className="space-y-1">
             <label className="text-sm font-medium text-slate-700" htmlFor="email">
               Email
@@ -58,9 +71,11 @@ export default function Login() {
               type="password"
               id="password"
               name="password"
-              autoComplete="current-password"
+              autoComplete="new-password"
               required
+              minLength={6}
             />
+            <p className="text-xs text-slate-500">Mínimo 6 caracteres.</p>
           </div>
 
           {error ? (
@@ -73,13 +88,13 @@ export default function Login() {
             type="submit"
             className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
           >
-            Entrar
+            Crear cuenta
           </button>
 
           <p className="text-sm text-slate-600">
-            ¿No tenés cuenta?{" "}
-            <Link className="font-medium text-slate-900 underline" to="/register">
-              Registrate
+            ¿Ya tenés cuenta?{" "}
+            <Link className="font-medium text-slate-900 underline" to="/">
+              Ir al login
             </Link>
           </p>
         </form>
@@ -87,3 +102,4 @@ export default function Login() {
     </div>
   );
 }
+

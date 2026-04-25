@@ -1,0 +1,8 @@
+export const Users = [
+  {
+    id: 1,
+    name: "John Doe",
+    email: "john.doe@example.com",
+    password: "password123",
+  },
+];
