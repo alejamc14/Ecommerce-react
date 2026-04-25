@@ -7,6 +7,7 @@ import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import AppLayout from "./components/templates/AppLayout.jsx";
 import RequireAuth from "./components/organisms/RequireAuth.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 function App() {
   return(
@@ -25,6 +26,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
