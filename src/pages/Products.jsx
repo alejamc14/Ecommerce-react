@@ -2,7 +2,6 @@ import { useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useCart } from "../store/cart/CartContext";
 import ProductCard from "../components/molecules/ProductCard";
-import Input from "../components/atoms/Input";
 import { useProducts } from "../hooks/useProducts";
 import Pagination from "../components/molecules/Pagination";
 import CategorySelect from "../components/molecules/CategorySelect";
@@ -47,18 +46,6 @@ export default function Products() {
     [searchParams, setSearchParams, totalPages],
   );
 
-  const onSearchChange = useCallback(
-    (value) => {
-      const nextParams = new URLSearchParams(searchParams);
-      const v = value.trim();
-      if (v) nextParams.set("q", v);
-      else nextParams.delete("q");
-      nextParams.set("page", "1");
-      setSearchParams(nextParams, { replace: true });
-    },
-    [searchParams, setSearchParams],
-  );
-
   const onCategoryChange = useCallback(
     (value) => {
       const nextParams = new URLSearchParams(searchParams);
@@ -87,16 +74,6 @@ export default function Products() {
 
         <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-end">
           <CategorySelect value={cat} categories={categories} onChange={onCategoryChange} />
-
-          <label className="w-full sm:w-80">
-            <span className="text-xs font-medium text-slate-600">Buscar</span>
-            <Input
-              className="mt-1"
-              placeholder="Buscar en tiempo real..."
-              value={q}
-              onChange={(e) => onSearchChange(e.target.value)}
-            />
-          </label>
         </div>
       </div>
 

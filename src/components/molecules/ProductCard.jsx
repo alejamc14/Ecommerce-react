@@ -5,19 +5,25 @@ export default function ProductCard({ product, onAdd }) {
   const navigate = useNavigate();
 
   return (
-    <article className="group rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-      <button type="button" className="w-full text-left" onClick={() => navigate(`/products/${product.id}`)}>
+    <article className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <button
+        type="button"
+        className="w-full flex-1 text-left"
+        onClick={() => navigate(`/products/${product.id}`)}
+      >
         <img
           src={product.image}
           alt={product.title}
           className="h-44 w-full rounded-xl border border-slate-100 bg-white object-contain p-4"
           loading="lazy"
         />
-        <h3 className="mt-3 line-clamp-2 text-sm font-semibold text-slate-900 group-hover:underline">
+        <h3 className="mt-3 min-h-10 line-clamp-2 text-sm font-semibold text-slate-900 group-hover:underline">
           {product.title}
         </h3>
-        <p className="mt-2 text-sm font-semibold text-slate-900">${product.price}</p>
-        <p className="mt-1 text-xs text-slate-600">{product.category}</p>
+        <div className="mt-2 flex items-end justify-between gap-2">
+          <p className="text-sm font-semibold text-slate-900">${product.price}</p>
+          <p className="text-xs text-slate-600">{product.category}</p>
+        </div>
       </button>
 
       <div className="mt-3 flex items-center gap-2">

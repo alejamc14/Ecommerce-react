@@ -2,6 +2,7 @@ import { Link, NavLink, useLocation, useNavigate, useSearchParams } from "react-
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../store/auth/AuthContext";
 import { useCart } from "../../store/cart/CartContext";
+import Badge from "../atoms/Badge";
 
 function classNames(...xs) {
   return xs.filter(Boolean).join(" ");
@@ -63,7 +64,9 @@ export default function Navbar() {
                 )
               }
             >
-              Carrito
+              <span className="inline-flex items-center gap-2">
+                Carrito <Badge className="bg-slate-900">{totalItems}</Badge>
+              </span>
             </NavLink>
             <NavLink
               to="/orders"
@@ -89,13 +92,6 @@ export default function Navbar() {
               onChange={(e) => onSearchChange(e.target.value)}
             />
           </label>
-          <button
-            type="button"
-            onClick={() => navigate("/cart")}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-800 hover:bg-slate-50"
-          >
-            Carrito <span className="ml-1 rounded-md bg-slate-900 px-2 py-0.5 text-xs text-white">{totalItems}</span>
-          </button>
           <div className="hidden text-sm text-slate-600 sm:block">
             {user ? <span className="truncate max-w-48 inline-block">Hola, {user.name}</span> : null}
           </div>
