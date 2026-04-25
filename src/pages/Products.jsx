@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useCart } from "../store/cart/CartContext";
+import ProductCard from "../components/molecules/ProductCard";
+import Input from "../components/atoms/Input";
 
 export default function Products() {
-  const navigate = useNavigate();
   const { addToCart } = useCart();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -95,8 +96,7 @@ export default function Products() {
 
         <label className="w-full sm:w-80">
           <span className="sr-only">Buscar</span>
-          <input
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-slate-400"
+          <Input
             placeholder="Buscar en tiempo real..."
             value={q}
             onChange={(e) => onSearchChange(e.target.value)}
@@ -106,44 +106,7 @@ export default function Products() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {paged.map((product) => (
-          <article
-            key={product.id}
-            className="group rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
-          >
-            <button
-              type="button"
-              className="w-full text-left"
-              onClick={() => navigate(`/products/${product.id}`)}
-            >
-              <img
-                src={product.image}
-                alt={product.title}
-                className="h-44 w-full rounded-xl border border-slate-100 bg-white object-contain p-4"
-                loading="lazy"
-              />
-              <h3 className="mt-3 line-clamp-2 text-sm font-semibold text-slate-900 group-hover:underline">
-                {product.title}
-              </h3>
-              <p className="mt-2 text-sm font-semibold text-slate-900">${product.price}</p>
-              <p className="mt-1 text-xs text-slate-600">{product.category}</p>
-            </button>
-
-            <div className="mt-3 flex items-center gap-2">
-              <button
-                type="button"
-                className="flex-1 rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800"
-                onClick={() => addToCart(product, 1)}
-              >
-                Agregar
-              </button>
-              <Link
-                className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-50"
-                to={`/products/${product.id}`}
-              >
-                Ver
-              </Link>
-            </div>
-          </article>
+          <ProductCard key={product.id} product={product} onAdd={(p) => addToCart(p, 1)} />
         ))}
       </div>
 
