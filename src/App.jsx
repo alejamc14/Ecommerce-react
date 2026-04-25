@@ -5,6 +5,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Register from "./pages/Register.jsx";
 import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
+import Orders from "./pages/Orders.jsx";
 import AppLayout from "./components/templates/AppLayout.jsx";
 import RequireAuth from "./components/organisms/RequireAuth.jsx";
 import NotFound from "./pages/NotFound.jsx";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/orders" element={<Orders />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
