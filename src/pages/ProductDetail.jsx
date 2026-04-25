@@ -1,35 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useCart } from "../store/cart/CartContext";
+import { useProduct } from "../hooks/useProduct";
 
 export default function ProductDetail() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    let alive = true;
-    setLoading(true);
-    axios
-      .get(`https://fakestoreapi.com/products/${id}`)
-      .then((response) => {
-        if (!alive) return;
-        setProduct(response.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        if (!alive) return;
-        setError(err.message);
-        setLoading(false);
-      });
-    return () => {
-      alive = false;
-    };
-  }, [id]);
+  const { data: product, loading, error } = useProduct(id);
 
   const handleAdd = useCallback(() => {
     if (!product) return;

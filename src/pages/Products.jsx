@@ -1,47 +1,20 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useCart } from "../store/cart/CartContext";
 import ProductCard from "../components/molecules/ProductCard";
 import Input from "../components/atoms/Input";
+import { useProducts } from "../hooks/useProducts";
 
 export default function Products() {
   const { addToCart } = useCart();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: products, loading, error, categories } = useProducts();
 
   const q = (searchParams.get("q") ?? "").trim();
   const cat = (searchParams.get("cat") ?? "").trim();
   const page = Number(searchParams.get("page") ?? "1") || 1;
   const pageSize = 8;
-
-  useEffect(() => {
-    let alive = true;
-    setLoading(true);
-    axios
-      .get("https://fakestoreapi.com/products")
-      .then((response) => {
-        if (!alive) return;
-        setProducts(response.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        if (!alive) return;
-        setError(err.message);
-        setLoading(false);
-      });
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  const categories = useMemo(() => {
-    const set = new Set(products.map((p) => p.category).filter(Boolean));
-    return ["", ...Array.from(set).sort((a, b) => a.localeCompare(b))];
-  }, [products]);
 
   const filtered = useMemo(() => {
     const qq = q.toLowerCase();
