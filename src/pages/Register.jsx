@@ -1,11 +1,15 @@
 import { useCallback, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth/AuthContext";
+import Button from "../components/atoms/Button";
+import Input from "../components/atoms/Input";
 
 export default function Register() {
   const navigate = useNavigate();
-  const { register } = useAuth();
+  const { register, isAuthenticated } = useAuth();
   const [error, setError] = useState("");
+
+  if (isAuthenticated) return <Navigate to="/products" replace />;
 
   const handleSubmit = useCallback(
     (e) => {
@@ -38,8 +42,7 @@ export default function Register() {
             <label className="text-sm font-medium text-slate-700" htmlFor="name">
               Nombre
             </label>
-            <input
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:ring-2 focus:ring-slate-400"
+            <Input
               type="text"
               id="name"
               name="name"
@@ -52,8 +55,7 @@ export default function Register() {
             <label className="text-sm font-medium text-slate-700" htmlFor="email">
               Email
             </label>
-            <input
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:ring-2 focus:ring-slate-400"
+            <Input
               type="email"
               id="email"
               name="email"
@@ -66,8 +68,7 @@ export default function Register() {
             <label className="text-sm font-medium text-slate-700" htmlFor="password">
               Password
             </label>
-            <input
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:ring-2 focus:ring-slate-400"
+            <Input
               type="password"
               id="password"
               name="password"
@@ -84,12 +85,9 @@ export default function Register() {
             </div>
           ) : null}
 
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
-          >
+          <Button type="submit" className="w-full">
             Crear cuenta
-          </button>
+          </Button>
 
           <p className="text-sm text-slate-600">
             ¿Ya tenés cuenta?{" "}

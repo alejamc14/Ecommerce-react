@@ -1,11 +1,17 @@
 import { useCallback, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth/AuthContext";
+import Button from "../components/atoms/Button";
+import Input from "../components/atoms/Input";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const location = useLocation();
+  const { login, isAuthenticated } = useAuth();
   const [error, setError] = useState("");
+
+  const from = location.state?.from || "/products";
+  if (isAuthenticated) return <Navigate to={from} replace />;
 
   const handleSubmit = useCallback(
     (e) => {
@@ -21,9 +27,9 @@ export default function Login() {
         setError(result.error);
         return;
       }
-      navigate("/products", { replace: true });
+      navigate(from, { replace: true });
     },
-    [login, navigate],
+    [from, login, navigate],
   );
 
   return (
@@ -39,8 +45,7 @@ export default function Login() {
             <label className="text-sm font-medium text-slate-700" htmlFor="email">
               Email
             </label>
-            <input
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:ring-2 focus:ring-slate-400"
+            <Input
               type="email"
               id="email"
               name="email"
@@ -53,8 +58,7 @@ export default function Login() {
             <label className="text-sm font-medium text-slate-700" htmlFor="password">
               Password
             </label>
-            <input
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 outline-none focus:ring-2 focus:ring-slate-400"
+            <Input
               type="password"
               id="password"
               name="password"
@@ -69,12 +73,9 @@ export default function Login() {
             </div>
           ) : null}
 
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
-          >
+          <Button type="submit" className="w-full">
             Entrar
-          </button>
+          </Button>
 
           <p className="text-sm text-slate-600">
             ¿No tenés cuenta?{" "}
