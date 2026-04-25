@@ -24,6 +24,9 @@ export default function ProductCard({ product, onAdd }) {
           <p className="text-sm font-semibold text-slate-900">${product.price}</p>
           <p className="text-xs text-slate-600">{product.category}</p>
         </div>
+        {typeof product?.rating?.rate === "number" ? (
+          <p className="mt-2 text-xs font-medium text-slate-700">Rating {product.rating.rate}</p>
+        ) : null}
       </button>
 
       <div className="mt-3 flex items-center gap-2">
