@@ -65,6 +65,17 @@ export default function Navbar() {
             >
               Carrito
             </NavLink>
+            <NavLink
+              to="/orders"
+              className={({ isActive }) =>
+                classNames(
+                  "rounded-lg px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100",
+                  isActive && "bg-slate-100 text-slate-900",
+                )
+              }
+            >
+              Compras
+            </NavLink>
           </nav>
         </div>
 
