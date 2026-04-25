@@ -1,4 +1,5 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../store/auth/AuthContext";
 import { useCart } from "../../store/cart/CartContext";
 
@@ -8,8 +9,31 @@ function classNames(...xs) {
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { user, logout } = useAuth();
   const { totalItems } = useCart();
+
+  const [q, setQ] = useState("");
+
+  useEffect(() => {
+    if (!location.pathname.startsWith("/products")) return;
+    setQ((searchParams.get("q") ?? "").trim());
+  }, [location.pathname, searchParams]);
+
+  const onSearchChange = useCallback(
+    (value) => {
+      const next = value;
+      setQ(next);
+      const nextParams = new URLSearchParams(searchParams);
+      const v = next.trim();
+      if (v) nextParams.set("q", v);
+      else nextParams.delete("q");
+      nextParams.set("page", "1");
+      navigate(`/products?${nextParams.toString()}`, { replace: location.pathname.startsWith("/products") });
+    },
+    [location.pathname, navigate, searchParams],
+  );
 
   return (
     <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
@@ -44,7 +68,16 @@ export default function Navbar() {
           </nav>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-1 items-center justify-end gap-2">
+          <label className="hidden w-full max-w-xs sm:block">
+            <span className="sr-only">Buscar productos</span>
+            <input
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-slate-400"
+              placeholder="Buscar..."
+              value={q}
+              onChange={(e) => onSearchChange(e.target.value)}
+            />
+          </label>
           <button
             type="button"
             onClick={() => navigate("/cart")}
