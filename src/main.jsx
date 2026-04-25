@@ -8,7 +8,7 @@ import { CartProvider } from "./store/cart/CartContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AuthProvider>
         <CartProvider>
           <App />
