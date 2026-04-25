@@ -1,4 +1,17 @@
+import { Route, Routes } from "react-router-dom";
+import { Login } from "./pages/Login";
+import {Products}  from "./pages/Products";
+import {ProductDetail}  from "./pages/ProductDetail";
+
+
 function App() {
-  return <h1 className="text-3xl font-bold text-center mt-10 text-blue-600">¡E-commerce funcionando!</h1>
+  return(
+    <Routes>
+      <Route path="/" element={<Login/>} />
+      <Route path="/products" element={<Products/>}>
+        <Route path="/:id" element={<ProductDetail/>}/>
+      </Route>
+    </Routes>
+  );
 }
 export default App
