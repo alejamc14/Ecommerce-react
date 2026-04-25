@@ -22,8 +22,7 @@ export default function Orders() {
     <div className="rounded-2xl border border-slate-200 bg-white">
       <div className="border-b border-slate-200 px-5 py-4">
         <h1 className="text-xl font-semibold text-slate-900">Mis compras</h1>
-        <p className="mt-1 text-sm text-slate-600">Historial guardado en <code>localStorage</code>.</p>
-      </div>
+       </div>
 
       <ul className="divide-y divide-slate-200">
         {orders.map((o) => (
