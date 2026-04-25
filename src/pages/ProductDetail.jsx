@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../store/cart/CartContext";
 import { useProduct } from "../hooks/useProduct";
+import Alert from "../components/atoms/Alert";
 
 export default function ProductDetail() {
   const navigate = useNavigate();
@@ -15,13 +16,8 @@ export default function ProductDetail() {
     navigate("/cart");
   }, [addToCart, navigate, product]);
 
-  if (loading) return <div className="rounded-2xl border border-slate-200 bg-white p-6">Cargando...</div>;
-  if (error)
-    return (
-      <div className="rounded-2xl border border-rose-200 bg-rose-50 p-6 text-rose-800">
-        Error: {error}
-      </div>
-    );
+  if (loading) return <Alert>Cargando...</Alert>;
+  if (error) return <Alert variant="error">Error: {error}</Alert>;
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">

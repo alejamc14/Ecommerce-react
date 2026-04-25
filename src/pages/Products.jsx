@@ -6,6 +6,7 @@ import Input from "../components/atoms/Input";
 import { useProducts } from "../hooks/useProducts";
 import Pagination from "../components/molecules/Pagination";
 import CategorySelect from "../components/molecules/CategorySelect";
+import Alert from "../components/atoms/Alert";
 
 export default function Products() {
   const { addToCart } = useCart();
@@ -70,13 +71,9 @@ export default function Products() {
     [searchParams, setSearchParams],
   );
 
-  if (loading) return <div className="rounded-2xl border border-slate-200 bg-white p-6">Cargando...</div>;
+  if (loading) return <Alert>Cargando...</Alert>;
   if (error)
-    return (
-      <div className="rounded-2xl border border-rose-200 bg-rose-50 p-6 text-rose-800">
-        Error: {error}
-      </div>
-    );
+    return <Alert variant="error">Error: {error}</Alert>;
 
   return (
     <div className="space-y-4">
