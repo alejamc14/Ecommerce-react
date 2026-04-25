@@ -4,6 +4,7 @@ import { useCart } from "../store/cart/CartContext";
 import ProductCard from "../components/molecules/ProductCard";
 import Input from "../components/atoms/Input";
 import { useProducts } from "../hooks/useProducts";
+import Pagination from "../components/molecules/Pagination";
 
 export default function Products() {
   const { addToCart } = useCart();
@@ -120,27 +121,12 @@ export default function Products() {
         ))}
       </div>
 
-      <div className="flex items-center justify-between">
-        <button
-          type="button"
-          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-50"
-          onClick={() => goToPage(safePage - 1)}
-          disabled={safePage <= 1}
-        >
-          Anterior
-        </button>
-        <p className="text-sm text-slate-600">
-          Página <span className="font-semibold text-slate-900">{safePage}</span> / {totalPages}
-        </p>
-        <button
-          type="button"
-          className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-50"
-          onClick={() => goToPage(safePage + 1)}
-          disabled={safePage >= totalPages}
-        >
-          Siguiente
-        </button>
-      </div>
+      <Pagination
+        page={safePage}
+        totalPages={totalPages}
+        onPrev={() => goToPage(safePage - 1)}
+        onNext={() => goToPage(safePage + 1)}
+      />
     </div>
   );
 }
