@@ -36,6 +36,12 @@ export default function ProductDetail() {
             <span className="text-xl font-semibold text-slate-900">${product.price}</span>
           </div>
           <p className="mt-2 text-sm text-slate-600">{product.category}</p>
+          {typeof product?.rating?.rate === "number" ? (
+            <p className="mt-2 text-sm text-slate-700">
+              Rating <span className="font-semibold text-slate-900">{product.rating.rate}</span>{" "}
+              <span className="text-slate-500">({product.rating.count} reviews)</span>
+            </p>
+          ) : null}
           <p className="mt-4 text-sm text-slate-700">{product.description}</p>
 
           <div className="mt-5 flex flex-wrap gap-2">
