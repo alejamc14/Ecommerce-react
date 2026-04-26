@@ -52,4 +52,4 @@ npm run build
 
 ---
 
-<p align="center">Proyecto de uso educativo — Fullstack Challenge 2025</p>
+<p align="center">Proyecto de uso educativo — Fullstack Challenge 2026</p>
