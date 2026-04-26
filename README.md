@@ -1,19 +1,19 @@
 # Fullstack Challenge - E-commerce (React)
 
-Proyecto de e-commerce hecho con React + Vite.
+Aplicación web tipo tienda online desarrollada con React + Vite como parte del Fullstack Challenge — Entrega N° 2.
 
 ## Funcionalidades
 
-- Login y registro local (persistencia en `localStorage`)
-- Sesión persistente
-- Galería de productos desde API (`https://fakestoreapi.com/`)
-- Buscador en tiempo real
-- Paginación
-- Filtrado por categoría
-- Detalle de producto
-- Carrito persistente (cantidades + total)
-- Checkout con previsualización y compra simulada
-- Historial de compras (local)
+-**Login y registro** con persistencia en `localStorage`
+- **Sesión persistente** — al recargar la página el usuario sigue conectado
+- **Galería de productos** consumida desde [FakeStore API](https://fakestoreapi.com/)
+- **Buscador en tiempo real** — filtra productos mientras escribes
+- **Paginación** de productos
+- **Filtrado por categoría**
+- **Detalle de producto** con información completa
+- **Carrito persistente** con manejo de cantidades y cálculo de total
+- **Checkout** con previsualización y compra simulada
+- **Historial de compras** guardado localmente
 
 ## Tecnologías
 
@@ -22,21 +22,34 @@ Proyecto de e-commerce hecho con React + Vite.
 - Axios
 - Tailwind (Vite plugin)
 
-## Instalación
+## Instalación y uso
+
+### Instalación
 
 ```bash
 npm install
 ```
 
-## Desarrollo
+### Desarrollo
 
 ```bash
 npm run dev
 ```
 
-## Build
+### Build
 
 ```bash
 npm run build
 ```
 
+## 🌐 Deploy
+
+🔗 **[Ver proyecto en vivo](https://alejamc14.github.io/Ecommerce-react/)**
+
+## Autor
+
+**Alejandra Madrid** — Desarrollador Full Stack en formación 
+
+---
+
+<p align="center">Proyecto de uso educativo — Fullstack Challenge 2025</p>
