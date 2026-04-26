@@ -4,7 +4,7 @@ Aplicación web tipo tienda online desarrollada con React + Vite como parte del 
 
 ## Funcionalidades
 
--**Login y registro** con persistencia en `localStorage`
+- **Login y registro** con persistencia en `localStorage`
 - **Sesión persistente** — al recargar la página el usuario sigue conectado
 - **Galería de productos** consumida desde [FakeStore API](https://fakestoreapi.com/)
 - **Buscador en tiempo real** — filtra productos mientras escribes
