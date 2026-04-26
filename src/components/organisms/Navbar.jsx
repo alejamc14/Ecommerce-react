@@ -2,7 +2,6 @@ import { Link, NavLink, useLocation, useNavigate, useSearchParams } from "react-
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../store/auth/AuthContext";
 import { useCart } from "../../store/cart/CartContext";
-import Badge from "../atoms/Badge";
 
 function classNames(...xs) {
   return xs.filter(Boolean).join(" ");
@@ -14,7 +13,6 @@ export default function Navbar() {
   const [searchParams] = useSearchParams();
   const { user, logout } = useAuth();
   const { totalItems } = useCart();
-
   const [q, setQ] = useState("");
 
   useEffect(() => {
@@ -22,92 +20,89 @@ export default function Navbar() {
     setQ((searchParams.get("q") ?? "").trim());
   }, [location.pathname, searchParams]);
 
-  const onSearchChange = useCallback(
-    (value) => {
-      const next = value;
-      setQ(next);
-      const nextParams = new URLSearchParams(searchParams);
-      const v = next.trim();
-      if (v) nextParams.set("q", v);
-      else nextParams.delete("q");
-      nextParams.set("page", "1");
-      navigate(`/products?${nextParams.toString()}`, { replace: location.pathname.startsWith("/products") });
-    },
-    [location.pathname, navigate, searchParams],
-  );
+  const onSearchChange = useCallback((value) => {
+    setQ(value);
+    const nextParams = new URLSearchParams(searchParams);
+    const v = value.trim();
+    if (v) nextParams.set("q", v);
+    else nextParams.delete("q");
+    nextParams.set("page", "1");
+    navigate(`/products?${nextParams.toString()}`, {
+      replace: location.pathname.startsWith("/products"),
+    });
+  }, [location.pathname, navigate, searchParams]);
+
+  const initials = user?.name
+    ? user.name.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase()
+    : "?";
 
   return (
-    <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3">
-        <div className="flex items-center gap-3">
-          <Link to="/products" className="text-sm font-semibold text-slate-900">
-            E-commerce
+    <header className="sticky top-0 z-10 bg-white border-b border-slate-200">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 h-14">
+
+        {/* Logo + Nav */}
+        <div className="flex items-center gap-6">
+          <Link to="/products" className="flex items-center gap-2">
+            <div className="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-sm">
+              🛍
+            </div>
+            <span className="font-semibold text-slate-900 text-sm">ShopReact</span>
           </Link>
-          <nav className="hidden items-center gap-1 sm:flex">
-            <NavLink
-              to="/products"
-              className={({ isActive }) =>
-                classNames(
-                  "rounded-lg px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100",
-                  isActive && "bg-slate-100 text-slate-900",
-                )
-              }
-            >
+
+          <nav className="hidden sm:flex items-center gap-1">
+            <NavLink to="/products" className={({ isActive }) =>
+              classNames("flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors",
+                isActive ? "bg-indigo-50 text-indigo-700 font-medium" : "text-slate-600 hover:bg-slate-100")}>
               Productos
             </NavLink>
-            <NavLink
-              to="/cart"
-              className={({ isActive }) =>
-                classNames(
-                  "rounded-lg px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100",
-                  isActive && "bg-slate-100 text-slate-900",
-                )
-              }
-            >
-              <span className="inline-flex items-center gap-2">
-                Carrito <Badge className="bg-slate-900">{totalItems}</Badge>
+            <NavLink to="/cart" className={({ isActive }) =>
+              classNames("flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors",
+                isActive ? "bg-indigo-50 text-indigo-700 font-medium" : "text-slate-600 hover:bg-slate-100")}>
+              Carrito
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-indigo-600 text-white text-xs font-medium">
+                {totalItems}
               </span>
             </NavLink>
-            <NavLink
-              to="/orders"
-              className={({ isActive }) =>
-                classNames(
-                  "rounded-lg px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100",
-                  isActive && "bg-slate-100 text-slate-900",
-                )
-              }
-            >
+            <NavLink to="/orders" className={({ isActive }) =>
+              classNames("px-3 py-1.5 rounded-lg text-sm transition-colors",
+                isActive ? "bg-indigo-50 text-indigo-700 font-medium" : "text-slate-600 hover:bg-slate-100")}>
               Compras
             </NavLink>
           </nav>
         </div>
 
-        <div className="flex flex-1 items-center justify-end gap-2">
-          <label className="hidden w-full max-w-xs sm:block">
-            <span className="sr-only">Buscar productos</span>
+        {/* Buscador + usuario + botón */}
+        <div className="flex items-center gap-3">
+          <div className="relative hidden sm:block">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
             <input
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-slate-400"
-              placeholder="Buscar..."
+              className="w-52 pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 text-sm text-slate-900 bg-white outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition"
+              placeholder="Buscar productos..."
               value={q}
               onChange={(e) => onSearchChange(e.target.value)}
             />
-          </label>
-          <div className="hidden text-sm text-slate-600 sm:block">
-            {user ? <span className="truncate max-w-48 inline-block">Hola, {user.name}</span> : null}
           </div>
+
+          <div className="hidden sm:flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-semibold">
+              {initials}
+            </div>
+            {user && (
+              <span className="text-sm text-slate-600 max-w-[120px] truncate">
+                {user.name}
+              </span>
+            )}
+          </div>
+
           <button
-            type="button"
-            onClick={() => {
-              logout();
-              navigate("/", { replace: true });
-            }}
-            className="rounded-lg bg-slate-900 px-3 py-1.5 text-sm font-semibold text-white hover:bg-slate-800"
+            onClick={() => { logout(); navigate("/", { replace: true }); }}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors"
           >
             Salir
           </button>
         </div>
+
       </div>
     </header>
   );
 }
-
